@@ -1,6 +1,5 @@
 const fs = require("fs");
 const http = require("http");
-
 const { agregarUsuario, consultarUsuario, devolver } = require("./consultas");
 
 http
@@ -29,7 +28,9 @@ http
       req.on("end", async () => {
         const datos = Object.values(JSON.parse(body));
         const result = await consultarUsuario(datos);
-        result == 0 ? (res.writeHead(404, "El usuario ingresado no existe"), res.end()) : res.end(JSON.stringify(result));
+        result == 0
+          ? (res.writeHead(404, "El usuario ingresado no existe"), res.end())
+          : res.end(JSON.stringify(result));
       });
     }
     if (req.url == "/usuarios" && req.method == "GET") {
