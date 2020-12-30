@@ -17,11 +17,10 @@ const agregarUsuario = async (datos) => {
   };
   try {
     const resultado = await pool.query(consultaIngreso);
-    console.log ( resultado.rows)
-    return resultado.rows
+    console.log(resultado.rows);
+    return resultado.rows;
   } catch (error) {
     console.log(error.code);
   }
 };
-agregarUsuario(["fffffdddjsj@jsjs.cl", "dhdhd"]);
-
+module.exports = { agregarUsuario };
