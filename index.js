@@ -1,10 +1,10 @@
 const fs = require("fs");
 const http = require("http");
 
-const { agregarUsuario, consultarUsuario } = require("./consultas");
+const { agregarUsuario, consultarUsuario, devolver } = require("./consultas");
 
 http
-  .createServer((req, res) => {
+  .createServer(async (req, res) => {
     if (req.url == "/" && req.method == "GET") {
       res.setHeader("content-type", "text/html");
       const html = fs.readFileSync("index.html", "utf8");
@@ -31,6 +31,10 @@ http
         const result = await consultarUsuario(datos);
         result == 0 ? (res.writeHead(404, "El usuario ingresado no existe"), res.end()) : res.end(JSON.stringify(result));
       });
+    }
+    if (req.url == "/usuarios" && req.method == "GET") {
+      const usuarios = await devolver();
+      res.end(JSON.stringify(usuarios));
     }
   })
   .listen(3000, () => console.log("Servidor en puerto 3000"));
