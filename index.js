@@ -1,7 +1,7 @@
 const fs = require("fs");
 const http = require("http");
 
-const { agregarUsuario } = require("./consultas");
+const { agregarUsuario, consultarUsuario } = require("./consultas");
 
 http
   .createServer((req, res) => {
@@ -19,6 +19,17 @@ http
         const datos = Object.values(JSON.parse(body));
         const result = await agregarUsuario(datos);
         res.end(JSON.stringify(result));
+      });
+    }
+    if (req.url == "/login" && req.method == "POST") {
+      let body = "";
+      req.on("data", (datos) => {
+        body += datos;
+      });
+      req.on("end", async () => {
+        const datos = Object.values(JSON.parse(body));
+        const result = await consultarUsuario(datos);
+        result == 0 ? (res.writeHead(404, "El usuario ingresado no existe"), res.end()) : res.end(JSON.stringify(result));
       });
     }
   })

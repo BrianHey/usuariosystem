@@ -23,4 +23,20 @@ const agregarUsuario = async (datos) => {
     console.log(error.code);
   }
 };
-module.exports = { agregarUsuario };
+
+const consultarUsuario = async(datos) =>{
+    const consultaUsuario = {
+        text: "SELECT * FROM usuarios WHERE email = $1 AND password = $2",
+        values: datos
+    }
+    try {
+        const resultado = await pool.query(consultaUsuario)
+        console.log(resultado.rows)
+        return resultado.rowCount
+    } catch (error) {
+        console.log(error.code)
+        return error
+    }
+}
+
+module.exports = { agregarUsuario, consultarUsuario };
